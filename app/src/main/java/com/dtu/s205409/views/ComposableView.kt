@@ -18,4 +18,14 @@ sealed class ComposableView(val route: String) {
     /** The initial game view will be there to store the name of the user */
     object InitialGameView : ComposableView("initial_game_view")
 
+    /** The game view */
+    object GameView : ComposableView("game_view")
+
+    fun passArguments(vararg args: String) : String {
+        return buildString {
+            append(route)
+            args.forEach { arg -> append("/$arg") }
+        }
+    }
+
 }
