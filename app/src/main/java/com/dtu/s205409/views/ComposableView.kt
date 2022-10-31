@@ -15,7 +15,7 @@ sealed class ComposableView(val route: String) {
     /** The welcome view will be shown when the user launches the application */
     object WelcomeView : ComposableView("welcome_view")
 
-    /** The Tutorial view will be shown for first-time users. It will explain the game rules and so on */
-    object TutorialView : ComposableView("tutorial_view")
+    /** The initial game view will be there to store the name of the user */
+    object InitialGameView : ComposableView("initial_game_view")
 
 }
