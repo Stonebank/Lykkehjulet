@@ -1,6 +1,7 @@
 package com.dtu.s205409.views.container
 
 import android.widget.Toast
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -19,6 +20,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.commandiron.spin_wheel_compose.DefaultSpinWheel
+import com.commandiron.spin_wheel_compose.SpinWheelDefaults
 import com.dtu.s205409.R
 import com.dtu.s205409.ui.theme.primaryBackground
 import com.dtu.s205409.ui.theme.welcomeButtonColor
@@ -27,7 +30,7 @@ import com.dtu.s205409.ui.theme.welcomeButtonColor
 fun ShowGameView(name: String?) {
 
     val pointList by remember {
-        mutableStateOf(listOf("Fallit", "100", "300", "500", "600", "Joker", "800", "1000", "1500", "Tur"))
+        mutableStateOf(listOf("Fallit", "100", "300", "500", "600", "800", "1000", "1500"))
     }
 
     var result by remember { mutableStateOf("0") }
@@ -36,6 +39,9 @@ fun ShowGameView(name: String?) {
 
     var points by rememberSaveable { mutableStateOf(0) }
     var lives by rememberSaveable { mutableStateOf(5) }
+
+    var resultDegree by rememberSaveable { mutableStateOf(0f) }
+    var index by rememberSaveable { mutableStateOf(0) }
 
     val context = LocalContext.current
 
@@ -50,15 +56,35 @@ fun ShowGameView(name: String?) {
             }
         }
         Column(verticalArrangement = Arrangement.spacedBy(15.dp, Alignment.CenterVertically), horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(result, fontSize = 48.sp, fontWeight = FontWeight.Bold, color = Color.White)
+            DefaultSpinWheel(
+                isSpinning = isSpinning,
+                onFinish = {
+                            isSpinning = false
+                            result = pointList[index]
+                           },
+                animationAttr = SpinWheelDefaults.spinWheelAnimationAttr(
+                    pieCount = pointList.size,
+                    durationMillis = 4000,
+                    delayMillis = 200,
+                    rotationPerSecond = 2f,
+                    easing = FastOutSlowInEasing,
+                    startDegree = 90f
+                ),
+                colors = SpinWheelDefaults.spinWheelColors(frameColor = Color.Black, selectorColor = Color.Red),
+                dimensions = SpinWheelDefaults.spinWheelDimensions(300.dp), resultDegree = resultDegree) {
+                    index -> Text(text = pointList[index])
+            }
+            Text(text = result, fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = Color.White)
             Button(
                 onClick = {
                           if (isSpinning) {
                               Toast.makeText(context, "Du har allerede drejet hjulet", Toast.LENGTH_SHORT).show()
                               return@Button
                           }
-                    result = pointList.random()
-                    isSpinning = true;
+                    result = "Drejer hjulet.."
+                    index = pointList.indices.random()
+                    resultDegree = (0..360).random().toFloat()
+                    isSpinning = true
                 },
                 colors = ButtonDefaults.buttonColors(if (isSpinning) Color.White.copy(alpha = 0.5f) else welcomeButtonColor)) {
                 Text("Drej hjulet", fontWeight = FontWeight.Bold, color = Color.White)
