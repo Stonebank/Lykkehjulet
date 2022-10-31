@@ -10,10 +10,13 @@ package com.dtu.s205409.controller
  */
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.dtu.s205409.views.ComposableView
+import com.dtu.s205409.views.container.ShowGameView
 import com.dtu.s205409.views.container.ShowInitialGameView
 import com.dtu.s205409.views.container.ShowWelcomeView
 
@@ -26,6 +29,13 @@ fun Navigation() {
         }
         composable(route = ComposableView.InitialGameView.route) {
             ShowInitialGameView(navController = navigationController)
+        }
+        composable(
+            route = ComposableView.GameView.route + "/{name}", arguments = listOf(navArgument("name") {
+                type = NavType.StringType
+                nullable = true
+            })) {
+                entry -> ShowGameView(name = entry.arguments?.getString("name"))
         }
     }
 }

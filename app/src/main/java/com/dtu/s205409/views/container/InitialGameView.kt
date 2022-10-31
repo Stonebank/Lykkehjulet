@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.dtu.s205409.ui.theme.primaryBackground
 import com.dtu.s205409.ui.theme.welcomeButtonColor
+import com.dtu.s205409.views.ComposableView
 
 @Composable
 fun ShowInitialGameView(navController: NavController) {
@@ -88,6 +89,7 @@ fun ShowInitialGameView(navController: NavController) {
                         error = true;
                         return@Button
                     }
+                    navController.navigate( ComposableView.GameView.passArguments(name) )
                 },
                 colors = ButtonDefaults.buttonColors(welcomeButtonColor), shape = CircleShape
             ) {
