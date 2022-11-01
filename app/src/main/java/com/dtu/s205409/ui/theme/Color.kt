@@ -12,4 +12,4 @@ val Teal200 = Color(0xFF03DAC5)
 val primaryBackground = Color(0xFF51459D)
 
 // welcome button color
-val welcomeButtonColor = Color(0XFF3ED2BB)
+val primaryButtonColor = Color(0XFF3ED2BB)
