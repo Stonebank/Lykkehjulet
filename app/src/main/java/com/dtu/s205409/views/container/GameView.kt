@@ -1,7 +1,6 @@
 package com.dtu.s205409.views.container
 
 import android.widget.Toast
-import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -25,8 +24,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.commandiron.spin_wheel_compose.DefaultSpinWheel
-import com.commandiron.spin_wheel_compose.SpinWheelDefaults
 import com.dtu.s205409.R
 import com.dtu.s205409.ui.theme.primaryBackground
 import com.dtu.s205409.ui.theme.primaryButtonColor
@@ -44,7 +41,7 @@ fun ShowGameView(name: String?, navController: NavController) {
     var lives by remember { mutableStateOf(5) }
 
     var isSpinning by remember { mutableStateOf(false) }
-    var resultDegree by remember { mutableStateOf(0f) }
+    var result by remember { mutableStateOf("") }
 
     val context = LocalContext.current
 
@@ -61,7 +58,7 @@ fun ShowGameView(name: String?, navController: NavController) {
                 .height(100.dp)) {
                 Text(text = name?.let { capitalize(it) } ?: "Uangivet navn", color = Color.Black, fontSize = 36.sp, fontWeight = FontWeight.Bold)
                 Text("$points points", fontWeight = FontWeight.SemiBold)
-                Text("+500 points hvis du gætter rigtig!", textAlign = TextAlign.Center)
+                Text(if (result.isNotEmpty()) resultMessage(result) else "", textAlign = TextAlign.Center)
                 Row(modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(), horizontalArrangement = Arrangement.End) {
@@ -73,23 +70,7 @@ fun ShowGameView(name: String?, navController: NavController) {
         }
         Column(verticalArrangement = Arrangement.spacedBy(15.dp, Alignment.CenterVertically), horizontalAlignment = Alignment.CenterHorizontally) {
             Spacer(modifier = Modifier.padding(30.dp))
-            DefaultSpinWheel(
-                isSpinning = isSpinning,
-                onFinish = {
-                           isSpinning = false
-                },
-                animationAttr = SpinWheelDefaults.spinWheelAnimationAttr(
-                    pieCount = pointList.size,
-                    durationMillis = 4000,
-                    delayMillis = 200,
-                    rotationPerSecond = 2f,
-                    easing = FastOutSlowInEasing,
-                    startDegree = 90f
-                ),
-                colors = SpinWheelDefaults.spinWheelColors(frameColor = Color.Black, selectorColor = Color.Red),
-                dimensions = SpinWheelDefaults.spinWheelDimensions(300.dp), resultDegree = resultDegree) {
-                    pieIndex -> Text(text = pointList[pieIndex])
-            }
+            Text(text = if (result.isNotEmpty()) "$result points" else "Drej hjulet", color = Color.White, fontSize = 48.sp, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.padding(20.dp))
             Button(
                 onClick = {
@@ -97,7 +78,7 @@ fun ShowGameView(name: String?, navController: NavController) {
                         Toast.makeText(context, "Du har allerede drejet hjulet", Toast.LENGTH_SHORT).show()
                         return@Button
                     }
-                    resultDegree = (0..360).random().toFloat()
+                    result = pointList[Random().nextInt(pointList.size)]
                     isSpinning = true
                 }, colors = ButtonDefaults.buttonColors(if (isSpinning) Color.White.copy(alpha = 0.5f) else primaryButtonColor)) {
                 Text("Drej hjulet", color = Color.White, fontWeight = FontWeight.Bold)
@@ -113,6 +94,11 @@ fun Preview() {
     ShowGameView(name = "Hassan", navController = rememberNavController())
 }
 
+fun resultMessage(result: String) : String {
+    if (result.equals("fallit"))
+        return "Øv! Du ramte fallit"
+    return "+$result points hvis du gætter rigtig!"
+}
 
 fun capitalize(input: String) : String {
     return input.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }
