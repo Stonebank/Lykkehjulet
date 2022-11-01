@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.dtu.s205409.ui.theme.primaryBackground
-import com.dtu.s205409.ui.theme.welcomeButtonColor
+import com.dtu.s205409.ui.theme.primaryButtonColor
 import com.dtu.s205409.views.ComposableView
 
 @Composable
@@ -91,7 +91,7 @@ fun ShowInitialGameView(navController: NavController) {
                     }
                     navController.navigate( ComposableView.GameView.passArguments(name) )
                 },
-                colors = ButtonDefaults.buttonColors(welcomeButtonColor), shape = CircleShape
+                colors = ButtonDefaults.buttonColors(primaryButtonColor), shape = CircleShape
             ) {
                 Text("Klar!", color = Color.White)
             }

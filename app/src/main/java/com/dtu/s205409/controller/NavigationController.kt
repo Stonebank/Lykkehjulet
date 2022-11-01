@@ -35,7 +35,7 @@ fun Navigation() {
                 type = NavType.StringType
                 nullable = true
             })) {
-                entry -> ShowGameView(name = entry.arguments?.getString("name"))
+                entry -> ShowGameView(name = entry.arguments?.getString("name"), navController = navigationController)
         }
     }
 }
