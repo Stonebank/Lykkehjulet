@@ -76,7 +76,7 @@ fun ShowInitialGameView(navController: NavController) {
             )
             if (error) {
                 Text(
-                    "Hov... Intet navn angivet",
+                    if (name.length > 10) "Hov... dit angivet navn er måske lidt for langt" else "Hov... Intet navn angivet",
                     color = colors.error,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold
@@ -86,7 +86,11 @@ fun ShowInitialGameView(navController: NavController) {
             Button(
                 onClick = {
                     if (name.isEmpty()) {
-                        error = true;
+                        error = true
+                        return@Button
+                    }
+                    if (name.length > 10) {
+                        error = true
                         return@Button
                     }
                     navController.navigate( ComposableView.GameView.passArguments(name) )

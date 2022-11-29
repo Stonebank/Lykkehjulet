@@ -21,6 +21,9 @@ sealed class ComposableView(val route: String) {
     /** The game view */
     object GameView : ComposableView("game_view")
 
+    /** Finish game view */
+    object FinishedView : ComposableView("finish_view")
+
     fun passArguments(vararg args: String) : String {
         return buildString {
             append(route)

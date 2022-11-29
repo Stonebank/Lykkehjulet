@@ -16,6 +16,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.dtu.s205409.views.ComposableView
+import com.dtu.s205409.views.container.ShowFinishedView
 import com.dtu.s205409.views.container.ShowGameView
 import com.dtu.s205409.views.container.ShowInitialGameView
 import com.dtu.s205409.views.container.ShowWelcomeView
@@ -36,6 +37,15 @@ fun Navigation() {
                 nullable = true
             })) {
                 entry -> ShowGameView(name = entry.arguments?.getString("name"), navController = navigationController)
+        }
+        composable(route = ComposableView.FinishedView.route + "/{name}/{hasWon}", arguments = listOf(navArgument("name") {
+            type = NavType.StringType
+            nullable = true
+        }, navArgument("hasWon") {
+            type = NavType.BoolType
+        })) {
+            entry ->
+            entry.arguments?.getBoolean("hasWon")?.let { ShowFinishedView(name = entry.arguments?.getString("name"), hasWon = it, navController = navigationController) }
         }
     }
 }
