@@ -144,7 +144,7 @@ class GameViewModel : ViewModel() {
             return true
         }
         for (i in 0 until _randomWord.value.word.length) {
-            if (_input.value.equals(_randomWord.value.word[i].toString(), ignoreCase = true))
+            if (_input.value.equals(_randomWord.value.word[i].toString(), ignoreCase = true) && !_guessingWord.value)
                 return true
         }
         return false
