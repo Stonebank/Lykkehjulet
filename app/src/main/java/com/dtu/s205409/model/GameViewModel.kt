@@ -118,11 +118,11 @@ class GameViewModel : ViewModel() {
     }
 
     fun checkInput() : Boolean {
-        return (_input.value in _vocals.value && !_hasBoughtVocal.value) || _input.value.isEmpty() || (!_guessingWord.value && _input.value.length > 1) || _input.value in _guessedInputs.value
+        return (_input.value in _vocals.value && !_hasBoughtVocal.value && !_guessingWord.value) || _input.value.isEmpty() || (!_guessingWord.value && _input.value.length > 1) || _input.value in _guessedInputs.value
     }
 
     fun getInputErrorMessage() : String {
-        if (_input.value in _vocals.value && !_hasBoughtVocal.value)
+        if (_input.value in _vocals.value && !_hasBoughtVocal.value && !_guessingWord.value)
             return "Du skal købe en vokal for at gætte på ${_input.value}"
         if (_input.value in _guessedInputs.value)
             return "Du har allerede gættet på ${_input.value}"
@@ -155,10 +155,6 @@ class GameViewModel : ViewModel() {
     }
 
     fun hasWon(word: String) : Boolean {
-        if (_input.value.contains(word, ignoreCase = true)) {
-            println(_input.value)
-            return true
-        }
         for (element in word) {
             if (element == '*')
                 return false

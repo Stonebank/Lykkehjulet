@@ -18,6 +18,7 @@ To run the application, follow these steps:
 
 # The application requirements for this application
 
+
 Requirement  | Version
 ------------- | -------------
 Android studio code (RECOMMENDED) or IntellIJ with android plugin  | Latest version 
