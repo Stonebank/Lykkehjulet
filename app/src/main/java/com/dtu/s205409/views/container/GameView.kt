@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.*
@@ -135,6 +136,8 @@ fun ShowGameView(navController: NavController, playerViewModel: PlayerViewModel,
                                 ).show()
                             } else {
                                 playerViewModel.removeLifePoint()
+                                if (gameViewModel.guessingWord.value)
+                                    playerViewModel.removeAllLives()
                                 if (playerViewModel.lives.value == 0) {
                                     navController.navigate(route = ComposableView.FinishedView.route)
                                     return@Button
@@ -146,6 +149,11 @@ fun ShowGameView(navController: NavController, playerViewModel: PlayerViewModel,
                                 ).show()
                             }
                             gameViewModel.guessedInputs.value.add(gameViewModel.input.value)
+                            if (gameViewModel.hasBoughtVocal.value)
+                                gameViewModel.toggleBoughtVocal()
+                            if (gameViewModel.guessingWord.value)
+                                gameViewModel.toggleGuessingWord()
+                            error = false
                             if (gameViewModel.hasWon(gameViewModel.displayRandomWord())) {
                                 navController.navigate(route = ComposableView.FinishedView.route)
                                 return@Button
@@ -165,6 +173,20 @@ fun ShowGameView(navController: NavController, playerViewModel: PlayerViewModel,
                         color = Color.White,
                         fontWeight = FontWeight.Bold
                     )
+                }
+                if (gameViewModel.hasSpinned.value) {
+                    Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterHorizontally)) {
+                        Button(onClick = {
+                            gameViewModel.buyVocal(playerViewModel = playerViewModel, localContext = context)
+                        }, colors = ButtonDefaults.buttonColors(primaryButtonColor), shape = CircleShape) {
+                            Text("Køb en vokal", color = Color.White)
+                        }
+                        Button(onClick = {
+                             gameViewModel.guessWord(localContext = context)
+                        }, colors = ButtonDefaults.buttonColors(primaryButtonColor), shape = CircleShape) {
+                            Text("Gæt ordet", color = Color.White)
+                        }
+                    }
                 }
             }
         }

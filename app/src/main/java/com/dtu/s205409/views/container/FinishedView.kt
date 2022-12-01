@@ -25,6 +25,7 @@ fun ShowFinishedView(navController: NavController, playerViewModel: PlayerViewMo
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.background(color = primaryBackground), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
             Text(if (gameViewModel.hasWon(gameViewModel.displayRandomWord())) "Tillykke ${playerViewModel.name.value}, du har vundet! Ønsker du at spille igen?" else "Øv ${playerViewModel.name.value}, du mistede alle dine liv", color = Color.White, fontSize = 24.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
+            Text("Endelig score: ${playerViewModel.points.value} points", color = Color.White, fontSize = 24.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
             Spacer(Modifier.height(10.dp))
             Button(
                 onClick = {

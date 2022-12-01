@@ -16,6 +16,9 @@ class PlayerViewModel : ViewModel() {
     private val _lives = mutableStateOf(5)
     val lives: State<Int> = _lives
 
+    private val _guesses = mutableStateOf(5)
+    val guesses: State<Int> = _guesses
+
     fun addPoints(points: Int) {
         _points.value += points
     }
@@ -28,9 +31,18 @@ class PlayerViewModel : ViewModel() {
         _points.value = 0
     }
 
+    fun removePoints(points: Int) {
+        _points.value -= points
+    }
+
+    fun removeAllLives() {
+        _lives.value = 0
+    }
+
     fun reset() {
         _lives.value = 5
         _points.value = 0
+        _guesses.value = 0
     }
 
     fun setName(name: String) {
