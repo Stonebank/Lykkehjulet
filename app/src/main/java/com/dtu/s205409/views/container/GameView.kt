@@ -82,6 +82,14 @@ fun ShowGameView(navController: NavController, playerViewModel: PlayerViewModel,
                     OutlinedTextField(
                         value = input,
                         onValueChange = {
+                            if ((it.isNotEmpty() && it.toCharArray()[0].isDigit()) || !it.matches("[a-zA-Z ]*".toRegex())) {
+                                error = true
+                                return@OutlinedTextField
+                            }
+                            if (it.length > 1 && !gameViewModel.guessingWord.value) {
+                                error = true
+                                return@OutlinedTextField
+                            }
                             input = it
                             error = false
                         },

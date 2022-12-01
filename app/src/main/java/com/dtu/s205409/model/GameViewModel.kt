@@ -127,7 +127,7 @@ class GameViewModel : ViewModel() {
         if (_input.value in _guessedInputs.value)
             return "Du har allerede gættet på ${_input.value}"
         if (_input.value.isEmpty())
-            return "Du skal angive et bogstav"
+            return "Du kan gætte på maks et bogstav!"
         if (_input.value.length > 1)
             return "Dit gæt kan kun være et bogstav"
         if (_input.value.toCharArray()[0].isDigit())
