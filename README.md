@@ -18,7 +18,13 @@ To run the application, follow these steps:
 
 # The application requirements for this application
 
-COMING SOON
+Requirement  | Version
+------------- | -------------
+Android studio code (RECOMMENDED) or IntellIJ with android plugin  | Latest version 
+Kotlin | 1.7.20
+Android SDK | 28 or better
+
+------------------------
 
 # The game requirements for this version 
 
