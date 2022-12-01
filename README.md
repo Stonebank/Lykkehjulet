@@ -10,6 +10,12 @@ Lykkehjulet is inspired off the American TV show "Wheel of Fortune". The gamesho
 
 Read more about the gameshow [here](https://en.wikipedia.org/wiki/Lykkehjulet#Unique_to_the_Danish_version)
 
+# Run and setup
+To run the application, follow these steps:
+1. Clone or download the repository 
+2. Import the project in to android studio
+3. Run "MainActivity"
+
 # The application requirements for this application
 
 COMING SOON
