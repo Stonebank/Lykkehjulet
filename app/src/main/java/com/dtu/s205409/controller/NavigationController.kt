@@ -10,11 +10,11 @@ package com.dtu.s205409.controller
  */
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
+import com.dtu.s205409.model.GameViewModel
+import com.dtu.s205409.model.PlayerViewModel
 import com.dtu.s205409.views.ComposableView
 import com.dtu.s205409.views.container.ShowFinishedView
 import com.dtu.s205409.views.container.ShowGameView
@@ -22,30 +22,20 @@ import com.dtu.s205409.views.container.ShowInitialGameView
 import com.dtu.s205409.views.container.ShowWelcomeView
 
 @Composable
-fun Navigation() {
+fun Navigation(playerViewModel: PlayerViewModel, gameViewModel: GameViewModel) {
     val navigationController = rememberNavController()
     NavHost(navController = navigationController, startDestination = ComposableView.WelcomeView.route) {
         composable(route = ComposableView.WelcomeView.route) {
-            ShowWelcomeView(navController = navigationController)
+            ShowWelcomeView(navController = navigationController, playerViewModel = playerViewModel)
         }
         composable(route = ComposableView.InitialGameView.route) {
-            ShowInitialGameView(navController = navigationController)
+            ShowInitialGameView(navController = navigationController, playerViewModel = playerViewModel)
         }
-        composable(
-            route = ComposableView.GameView.route + "/{name}", arguments = listOf(navArgument("name") {
-                type = NavType.StringType
-                nullable = true
-            })) {
-                entry -> ShowGameView(name = entry.arguments?.getString("name"), navController = navigationController)
+        composable(route = ComposableView.GameView.route) {
+            ShowGameView(navController = navigationController, playerViewModel = playerViewModel, gameViewModel = gameViewModel)
         }
-        composable(route = ComposableView.FinishedView.route + "/{name}/{hasWon}", arguments = listOf(navArgument("name") {
-            type = NavType.StringType
-            nullable = true
-        }, navArgument("hasWon") {
-            type = NavType.BoolType
-        })) {
-            entry ->
-            entry.arguments?.getBoolean("hasWon")?.let { ShowFinishedView(name = entry.arguments?.getString("name"), hasWon = it, navController = navigationController) }
+        composable(route = ComposableView.FinishedView.route) {
+            ShowFinishedView(navController = navigationController, playerViewModel = playerViewModel, gameViewModel = gameViewModel)
         }
     }
 }

@@ -22,12 +22,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.dtu.s205409.model.PlayerViewModel
 import com.dtu.s205409.ui.theme.primaryBackground
 import com.dtu.s205409.ui.theme.primaryButtonColor
 import com.dtu.s205409.views.ComposableView
 
 @Composable
-fun ShowInitialGameView(navController: NavController) {
+fun ShowInitialGameView(navController: NavController, playerViewModel: PlayerViewModel) {
+
+    println(playerViewModel.name.value)
 
     var name by rememberSaveable { mutableStateOf("") }
     var error by rememberSaveable { mutableStateOf(false) }
@@ -93,7 +96,8 @@ fun ShowInitialGameView(navController: NavController) {
                         error = true
                         return@Button
                     }
-                    navController.navigate( ComposableView.GameView.passArguments(name) )
+                    playerViewModel.setName(name)
+                    navController.navigate(route = ComposableView.GameView.route)
                 },
                 colors = ButtonDefaults.buttonColors(primaryButtonColor), shape = CircleShape
             ) {
