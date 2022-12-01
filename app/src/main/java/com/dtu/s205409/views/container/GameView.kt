@@ -59,7 +59,7 @@ fun ShowGameView(navController: NavController, playerViewModel: PlayerViewModel,
                     }
                 }
             }
-            Column(verticalArrangement = Arrangement.spacedBy(15.dp, Alignment.CenterVertically), horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(15.dp, Alignment.CenterVertically), horizontalAlignment = Alignment.CenterHorizontally) {
                 Spacer(modifier = Modifier.padding(30.dp))
                 if (gameViewModel.hasSpinned.value) {
                     if (gameViewModel.isFallit()) {
