@@ -25,12 +25,6 @@ Android studio code (RECOMMENDED) or IntellIJ with android plugin  | Latest vers
 Kotlin | 1.7.20
 Android SDK | 28 or better
 
-------------------------
-
-# The game requirements for this version 
-
-COMING SOON
-
 ----------------------------------------------
 
 Created by Hassan K, student number: s205409 
