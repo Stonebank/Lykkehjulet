@@ -1,6 +1,7 @@
 package com.dtu.s205409.model
 
 import android.content.Context
+import android.content.res.Resources
 import android.widget.Toast
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -17,9 +18,8 @@ class GameViewModel : ViewModel() {
     private val _pointListResult = mutableStateOf("")
     val pointListResult: State<String> = _pointListResult
 
-    // TODO REWORK
-    private val _guessedInputs = mutableStateOf(ArrayList<String>())
-    val guessedInputs: State<ArrayList<String>> = _guessedInputs
+    private val _guessedInputs = mutableListOf<String>()
+    val guessedInputs: List<String> = _guessedInputs
 
     private val _input = mutableStateOf("")
     val input: State<String> = _input
@@ -71,7 +71,7 @@ class GameViewModel : ViewModel() {
         _guessingWord.value = false
         _pointListResult.value = ""
         _input.value = ""
-        _guessedInputs.value.clear()
+        _guessedInputs.clear()
     }
 
     fun generateRandomWord() : GameWord {
@@ -100,7 +100,7 @@ class GameViewModel : ViewModel() {
                 stringBuilder.append(" ")
                 continue
             }
-            if (_guessedInputs.value.contains(_randomWord.value.word[i].toString().lowercase()))
+            if (_guessedInputs.contains(_randomWord.value.word[i].toString().lowercase()))
                 stringBuilder.append(_randomWord.value.word[i])
             else
                 stringBuilder.append("*")
@@ -118,13 +118,13 @@ class GameViewModel : ViewModel() {
     }
 
     fun checkInput() : Boolean {
-        return (_input.value in _vocals.value && !_hasBoughtVocal.value && !_guessingWord.value) || _input.value.isEmpty() || (!_guessingWord.value && _input.value.length > 1) || _input.value in _guessedInputs.value
+        return (_input.value in _vocals.value && !_hasBoughtVocal.value && !_guessingWord.value) || _input.value.isEmpty() || (!_guessingWord.value && _input.value.length > 1) || _input.value in _guessedInputs
     }
 
     fun getInputErrorMessage() : String {
         if (_input.value in _vocals.value && !_hasBoughtVocal.value && !_guessingWord.value)
             return "Du skal købe en vokal for at gætte på ${_input.value}"
-        if (_input.value in _guessedInputs.value)
+        if (_input.value in _guessedInputs)
             return "Du har allerede gættet på ${_input.value}"
         if (_input.value.isEmpty())
             return "Du kan gætte på maks et bogstav!"
@@ -138,8 +138,8 @@ class GameViewModel : ViewModel() {
     fun isCorrectGuess() : Boolean {
         if (_guessingWord.value && _input.value.contains(_randomWord.value.word, ignoreCase = true)) {
             for (c in _randomWord.value.word.toCharArray()) {
-                if (!_guessedInputs.value.contains(c.toString().lowercase()))
-                    _guessedInputs.value.add(c.toString().lowercase())
+                if (!_guessedInputs.contains(c.toString().lowercase()))
+                    _guessedInputs.add(c.toString().lowercase())
             }
             return true
         }
@@ -199,5 +199,8 @@ class GameViewModel : ViewModel() {
         _guessingWord.value = !_guessingWord.value
     }
 
+    fun addGuessedInput(input: String) {
+        _guessedInputs.add(input)
+    }
 
 }

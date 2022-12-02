@@ -156,7 +156,7 @@ fun ShowGameView(navController: NavController, playerViewModel: PlayerViewModel,
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
-                            gameViewModel.guessedInputs.value.add(gameViewModel.input.value)
+                            gameViewModel.addGuessedInput(gameViewModel.input.value)
                             if (gameViewModel.hasBoughtVocal.value)
                                 gameViewModel.toggleBoughtVocal()
                             if (gameViewModel.guessingWord.value)
